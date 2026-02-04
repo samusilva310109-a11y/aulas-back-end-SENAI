@@ -22,24 +22,54 @@
 */
 
 /**
- *  Operadores de comparação no Javascript
- *      
- *      == -> Permite comparar a igualdade de dois valores
- *      != -> Permite comparar a difernça de dois conteúdos
- *      <  -> Permite validar se o valor é menor 
- *      >  -> Permite validar se o valor é maior 
- *      <= -> Permite validar se o valor é menor ou igual
- *      >= -> Permite validar se o valor é maior ou igual
- *      === -> Compara a igualdade de conteúdo e tipagem de dados 
- *      !== -> Compara a difernça de conteúdo e a igualdade de tipagem de dados
- *      ==! -> Compara a igualdade de conteúdo e a diferença de tipagem de dados
+*  Operadores de comparação no Javascript
+*      
+*      == -> Permite comparar a igualdade de dois valores
+*      != -> Permite comparar a difernça de dois conteúdos
+*      <  -> Permite validar se o valor é menor 
+*      >  -> Permite validar se o valor é maior 
+*      <= -> Permite validar se o valor é menor ou igual
+*      >= -> Permite validar se o valor é maior ou igual
+*      === -> Compara a igualdade de conteúdo e tipagem de dados 
+*      !== -> Compara a difernça de conteúdo e a igualdade de tipagem de dados
+*      ==! -> Compara a igualdade de conteúdo e a diferença de tipagem de dados
+* 
+* Operadores Lógicos
+* 
+*      E -> AND -> &&
+*      OU -> OR -> ||
+*      NAO -> NOT -> !
+* 
+* Função isNaN() -> is Not a Number
+*      
+*      Permite a validação de letras ou números verificando o conteúdo de uma variável  
+*/
+
+/**
+ * Anotações
  * 
- * Operadores Lógicos
+ * Convertendo Strings para Numbers
+ *      funções: 
+ *          parseFloat() -> converte para números de ponto flutuante ou decimais
+ *          parsent() -> converte para números inteiros
+ *          
+ *      classe:
+ *          Nas versões mais modernas do Javascript existe uma classe que possiblita a conversão de strings para números
  * 
- *  E -> AND -> &&
- *  OU -> OR -> ||
- *  NAO -> NOT -> !
- */
+ *              Number() -> converte strings para números sem especificar se é do tipo inteiro ou ponto flutuante. Ele converte
+ *                  de forma dinâmica
+ * 
+ * Convertendo Numbers para Strings
+ *      String -> permite converter um conteúdo para Strings
+ * 
+ * Conteúdo -> Booleano
+ *      Boolean() -> permite converter um conteúdo para valor booleano
+ * 
+ * typeOf() -> retorna o tipo de dado de uma variável (String, Number, Boolean ou Object)
+ * 
+ * toFixed() -> é um método que permite fixar a quantidade de casas decimais
+ * 
+*/
 
 //Import da biblioteca de entrada de dados
 const readLine = require('readline');
@@ -58,7 +88,7 @@ entradaDeDados.question('Digite o nome do aluno: ', function(nomeAluno){
         let nota1 = valor1;
 
         entradaDeDados.question('Digite a segunda nota: ', function(valor2){
-            let nota2 = valor2
+            let nota2 = valor2;
 
             entradaDeDados.question('Digite a terceira nota: ', function(valor3){
                 let nota3 = valor3;
@@ -67,17 +97,20 @@ entradaDeDados.question('Digite o nome do aluno: ', function(nomeAluno){
                     let nota4 = valor4;
 
                     if(nomeAluno == '' || nota1 == '' || nota2 == '' || nota3 == '' || nota4 == ''){
-                        console.log('ERRO: existem campos obrigatórios que não foram preenchidos!!!')
+                        console.log('ERRO: existem campos obrigatórios que não foram preenchidos!!!');
                     }else if(nota1 < 0 || nota1 > 100 || 
                         nota2 < 0 || nota2 > 100|| 
                         nota3 < 0 || nota3 > 100 || 
                         nota4 < 0 || nota4 > 100
                     ){
-                        console.log('ERRO: VALOR DA NOTA INVALIDO')
+                        console.log('ERRO: VALOR DA NOTA INVALIDO. OS VALORES DEVEM SEREM NUMÉRICOS DE 0 A 100!!')
                     }else if(isNaN(nota1) || isNaN(nota2) || isNaN(nota3) || isNaN(nota4)){
-                        console.log('ERRO: TODOS OS VALORES DAS NOTAS DEVEM SEREM NÚMEROS')
+                        console.log('ERRO: TODOS OS VALORES DAS NOTAS DEVEM SEREM NÚMEROS');
                     }else{
-                        console.log('Calcular')
+                        let media = calcularMedia(nota1, nota2, nota3, nota4).toFixed(3);
+                        let situacaoAluno = definirStatusAluno(media);
+                        
+                        console.log(`\nAluno(a): ${nomeAluno} \nMédia: ${media}\nSituação do aluno: ${situacaoAluno}`);
                     }
                 })
             })
@@ -86,7 +119,19 @@ entradaDeDados.question('Digite o nome do aluno: ', function(nomeAluno){
 })
 
 function calcularMedia(nota1, nota2, nota3, nota4){
-    if(nota1 || nota2 || nota3 || nota4 == null){
-        
+    let soma = parseFloat(nota1) + parseFloat(nota2) + parseFloat(nota3) + parseFloat(nota4);
+    let media = soma / 4;
+    return media;
+}
+
+function definirStatusAluno(media){
+    let situacao;
+    if(media >= 70){
+        situacao = 'Aprovado!!'
+    }else if(media >= 50){
+        situacao = 'Em recuperação!!'
+    }else{
+        situacao = 'Reprovado!!'
     }
+    return situacao;
 }
